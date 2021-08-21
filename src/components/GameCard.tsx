@@ -40,7 +40,7 @@ export const GameCard: React.FC<PropsType> = ({game}) => {
           )
         })}
         
-        <a href={game.game_url} target="_blank">{game.platform.indexOf('Web Browser') !== -1? 'Jogar' : 'Instalar'}</a>
+        <a href={game.game_url} target="_blank">{game.platform.indexOf('Web') !== -1? 'Jogar' : 'Instalar'}</a>
       </div>
       <br />
     </div>

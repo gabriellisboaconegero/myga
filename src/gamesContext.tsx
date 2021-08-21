@@ -25,7 +25,7 @@ export interface Game extends GameAPI {
 
 type ContextType ={
   gamesRaw: Game[];
-  addFilter: (type: FilterTypes, filter: string | boolean) => void;
+  addFilter: (type: FilterTypes, filter: FilterValues) => void;
   filters: Filters;
   choices: Choices;
 }
@@ -39,15 +39,17 @@ export type Choice = {
   toggle: (idToAdd: number) => void;
 }
 
-type Choices = Record<string, Choice>
+type Choices = Record<ToggleFilterTypes, Choice>
 //#endregion
 
 //#region Filter types
 export type ToggleFilterTypes = 'quero_jogar' | 'jogando' | 'favorito' | 'ja_joguei' | 'zerei';
 
-type FilterTypes = ToggleFilterTypes | 'genre' | 'platform' | 'text';
+type FilterTypes = ToggleFilterTypes | 'genre' | 'pc' | 'web' | 'text';
 
-type Filters = Record<FilterTypes, string | boolean>;
+type FilterValues = string | boolean | string[];
+
+type Filters = Record<FilterTypes, FilterValues>;
 //#endregion
 
 export const gamesContext = createContext({} as ContextType);
@@ -90,14 +92,14 @@ export const GamesProvider: React.FC = ({children}) => {
           jogando: jogando[game.id],
           ja_joguei: jaJoguei[game.id],
           zerei: zerei[game.id],
-          favorito: favorito[game.id]
+          favorito: favorito[game.id],
         }
       })
     }
   }
 
   // O add filter adiciona ao objeto o nome do filtro (texte, jogando, etc.) como key e um boolean como valor
-  function addFilter(type: FilterTypes, filter: string | boolean){
+  function addFilter(type: FilterTypes, filter: FilterValues){
     setFilters(prev => {
       return {
         ...prev,
