@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import axios, { AxiosResponse } from 'axios';
+import { ChoiceType, usePermChoice } from "./usePermChoice";
 
 type GameAPI = {
   id: number;
@@ -25,7 +26,13 @@ type ContextType ={
   gamesRaw: Game[];
   addFilter: (type: AddFilterTypes, filter: string | boolean) => void;
   filters: Filters;
+  choices: Choices;
 }
+
+type Choices = Record<string, {
+  value: ChoiceType;
+  toggle: (idToAdd: number) => void;
+}>
 
 type AddFilterTypes = 'genre' | 'platform' | 'quero_jogar' | 'jogando' | 'favorito' | 'ja_joguei' | 'zerei' | 'text';
 
@@ -33,14 +40,18 @@ type Filters = Record<AddFilterTypes, string | boolean>;
 
 export const gamesContext = createContext({} as ContextType);
 
-export const GamesProvider: React.FC = ({children}) => {
-  
+export const GamesProvider: React.FC = ({children}) => {  
   useEffect(() => {
     fetchGames();
   }, []);
 
   const [gamesRaw, setGamesRaw] = useState<Game[]>([]);
   const [filters, setFilters] = useState<Filters>({} as Filters);
+  const [favorito, toggleFavorito] = usePermChoice('favoritos');
+  const [queroJogar, toggleQueroJogar] = usePermChoice('queroJogar');
+  const [jogando, toggleJogando] = usePermChoice('jogando');
+  const [jaJoguei, toggleJaJoguei] = usePermChoice('jaJoguei');
+  const [zerei, toggleZerei] = usePermChoice('zerei');
 
   async function fetchGames(){
     const res: AxiosResponse<GameAPI[]> = await axios.request({
@@ -63,11 +74,11 @@ export const GamesProvider: React.FC = ({children}) => {
       return res.data.map((game): Game => {
         return {
           ...game,
-          quero_jogar: false,
-          jogando: false,
-          ja_joguei: false,
-          zerei: false,
-          favorito: false
+          quero_jogar: queroJogar[game.id],
+          jogando: jogando[game.id],
+          ja_joguei: jaJoguei[game.id],
+          zerei: zerei[game.id],
+          favorito: favorito[game.id]
         }
       })
     }
@@ -82,8 +93,38 @@ export const GamesProvider: React.FC = ({children}) => {
     })
   }
 
+  const choices: Choices = {
+    favorito: {
+      value: favorito,
+      toggle: toggleFavorito
+    },
+    quero_jogar: {
+      value: queroJogar,
+      toggle: toggleQueroJogar
+    },
+    jogando: {
+      value: jogando,
+      toggle: toggleJogando
+    },
+    ja_joguei: {
+      value: jaJoguei,
+      toggle: toggleJaJoguei
+    },
+    zerei: {
+      value: zerei,
+      toggle: toggleZerei
+    }
+  }
+
+  const contextValues: ContextType = {
+    gamesRaw,
+    addFilter, 
+    filters,
+    choices
+  }
+
   return (
-    <gamesContext.Provider value={{gamesRaw, addFilter, filters}}>
+    <gamesContext.Provider value={contextValues}>
       {children}
     </gamesContext.Provider>
   )

@@ -27,8 +27,10 @@ export const Header: React.FC = () => {
             if (dynamic) addFilter('text', e.target.value.toLowerCase().trim());
           }}
         />
+        <p>Para buscar pelo id use "#". Ex: "#100"</p>
         <button type="submit" disabled={dynamic}>Pesquisar</button>
       </form>
+      
     </header>
   )
 }

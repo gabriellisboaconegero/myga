@@ -1,8 +1,11 @@
 import React from 'react';
 import { useState } from 'react';
+import { Filter } from '../components/Filter';
 import { GameCard } from '../components/GameCard';
 import { Header } from '../components/Hearder';
+import { Game } from '../gamesContext';
 import { useGames } from '../useGames';
+import { ChoiceType, usePermChoice } from '../usePermChoice';
 
 export const Home:React.FC = () => {
   const [page, setPage] = useState(1);
@@ -11,22 +14,32 @@ export const Home:React.FC = () => {
   function games(){
     console.log(filters);
     let temporaryGames = gamesRaw;
-    if (Object.keys(filters).length > 0){
-      let text = filters.text.toString();
-      if (text.startsWith('#')){
-        if (text.length > 1){
-          console.log(gamesRaw[0].id);
-          temporaryGames = gamesRaw.filter(game => game.id.toString() === text.slice(1))
-        } 
-      } else{
-        temporaryGames = gamesRaw.filter(game => game.title.toLowerCase().indexOf(text) !== -1)
+    
+    for (let pair of Object.entries(filters)){
+      console.log(pair);
+      if (pair[0] === 'text'){
+        let text = filters.text.toString();
+        if (text.startsWith('#')){
+          if (text.length > 1){
+            temporaryGames = temporaryGames.filter(game => game.id.toString() === text.slice(1))
+          } 
+        } else{
+          temporaryGames = temporaryGames.filter(game => game.title.toLowerCase().indexOf(text) !== -1)
+        }
+      }else if(pair[1]){
+        // temporaryGames = aplyFilter(favorito, temporaryGames);
       }
     }
     return temporaryGames.filter((game, id) => id < page * 20);
+
+    function aplyFilter(choice: ChoiceType, array: Game[]): Game[]{
+      return array.filter(game => choice[game.id]);
+    }
   }
 
   return (
     <div>
+      <Filter />
       <Header />
       {games().map(game => {
         return (
