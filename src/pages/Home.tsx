@@ -3,19 +3,25 @@ import { useState } from 'react';
 import { Filter } from '../components/Filter';
 import { GameCard } from '../components/GameCard';
 import { Header } from '../components/Hearder';
-import { Game } from '../gamesContext';
+import { Choice, Game } from '../gamesContext';
 import { useGames } from '../useGames';
-import { ChoiceType, usePermChoice } from '../usePermChoice';
 
 export const Home:React.FC = () => {
   const [page, setPage] = useState(1);
-  const {gamesRaw, filters} = useGames();
+  const {gamesRaw, filters, choices} = useGames();
 
   function games(){
     console.log(filters);
     let temporaryGames = gamesRaw;
     
+    // Para cada filtro aplicar uma lógica
+    // Por ser o único diferente o tipo text tem tratamento especial
+    // Ja os outros são todos, boolean são tratados iguais
     for (let pair of Object.entries(filters)){
+      // pair[0] == key: string (tipo de filtro)
+      // pair [1] == value: string | boolean (valor do filtro, ou seja)
+      // pair[0] == text pair[1] == string
+      // pair[0] != text pair[1] == boolean
       console.log(pair);
       if (pair[0] === 'text'){
         let text = filters.text.toString();
@@ -27,13 +33,16 @@ export const Home:React.FC = () => {
           temporaryGames = temporaryGames.filter(game => game.title.toLowerCase().indexOf(text) !== -1)
         }
       }else if(pair[1]){
-        // temporaryGames = aplyFilter(favorito, temporaryGames);
+        // o pair[0] é usado como chave para o choices e escolher qual atributo filtrar
+        // favorito, querendo_jogar, etc.
+        // Depois disso é só aplicar o filtro utilizando o valor dessa choice
+        temporaryGames = aplyFilter(choices[pair[0]], temporaryGames);
       }
     }
     return temporaryGames.filter((game, id) => id < page * 20);
 
-    function aplyFilter(choice: ChoiceType, array: Game[]): Game[]{
-      return array.filter(game => choice[game.id]);
+    function aplyFilter(choice: Choice, array: Game[]): Game[]{
+      return array.filter(game => choice.value[game.id]);
     }
   }
 

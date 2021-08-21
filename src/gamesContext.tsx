@@ -1,7 +1,8 @@
 import React, { createContext, useEffect, useState } from "react";
 import axios, { AxiosResponse } from 'axios';
-import { ChoiceType, usePermChoice } from "./usePermChoice";
+import { usePermChoice } from "./usePermChoice";
 
+//#region Context types
 type GameAPI = {
   id: number;
   title: string;
@@ -24,19 +25,30 @@ export interface Game extends GameAPI {
 
 type ContextType ={
   gamesRaw: Game[];
-  addFilter: (type: AddFilterTypes, filter: string | boolean) => void;
+  addFilter: (type: FilterTypes, filter: string | boolean) => void;
   filters: Filters;
   choices: Choices;
 }
+//#endregion
 
-type Choices = Record<string, {
-  value: ChoiceType;
+//#region Choice types
+export type ChoiceValue = Record<number, boolean>;
+
+export type Choice = {
+  value: ChoiceValue;
   toggle: (idToAdd: number) => void;
-}>
+}
 
-type AddFilterTypes = 'genre' | 'platform' | 'quero_jogar' | 'jogando' | 'favorito' | 'ja_joguei' | 'zerei' | 'text';
+type Choices = Record<string, Choice>
+//#endregion
 
-type Filters = Record<AddFilterTypes, string | boolean>;
+//#region Filter types
+export type ToggleFilterTypes = 'quero_jogar' | 'jogando' | 'favorito' | 'ja_joguei' | 'zerei';
+
+type FilterTypes = ToggleFilterTypes | 'genre' | 'platform' | 'text';
+
+type Filters = Record<FilterTypes, string | boolean>;
+//#endregion
 
 export const gamesContext = createContext({} as ContextType);
 
@@ -84,7 +96,8 @@ export const GamesProvider: React.FC = ({children}) => {
     }
   }
 
-  function addFilter(type: AddFilterTypes, filter: string | boolean){
+  // O add filter adiciona ao objeto o nome do filtro (texte, jogando, etc.) como key e um boolean como valor
+  function addFilter(type: FilterTypes, filter: string | boolean){
     setFilters(prev => {
       return {
         ...prev,
