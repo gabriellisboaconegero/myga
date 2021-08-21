@@ -2,7 +2,7 @@ import React, { FormEvent } from "react";
 import { useState } from "react";
 import { useGames } from "../useGames";
 
-export const Header: React.FC = () => {
+export const SearchBar: React.FC = () => {
 
   const [filter, setFilter] = useState('');
   const {addFilter} = useGames();
@@ -30,7 +30,6 @@ export const Header: React.FC = () => {
         <p>Para buscar pelo id use "#". Ex: "#100"</p>
         <button type="submit" disabled={dynamic}>Pesquisar</button>
       </form>
-      
     </header>
   )
 }

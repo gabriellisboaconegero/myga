@@ -36,7 +36,7 @@ Uma lista de todos o jogos disponíveis na API, que podem ser filtrados e marcad
 
 ### Built With
 * [React](https://reactjs.org)
-* [Firebase (deploy)](https://firebase.google.com)
+* [Vercel (deploy)](https://vercel.com/)
 
 
 <!-- MARKDOWN LINKS & IMAGES -->

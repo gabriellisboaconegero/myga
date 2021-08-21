@@ -1,6 +1,12 @@
 import React, { createContext, useEffect, useState } from "react";
 import axios, { AxiosResponse } from 'axios';
 import { usePermChoice } from "./usePermChoice";
+import { usePermState } from "./usePermState";
+import laranja from './assets/laranja.svg';
+import amarelo from './assets/amarelo.svg'
+import verde from './assets/verde.svg'
+import azul from './assets/azul.svg'
+import vermelho from './assets/vermelho.svg'
 
 //#region Context types
 type GameAPI = {
@@ -28,6 +34,12 @@ type ContextType ={
   addFilter: (type: FilterTypes, filter: FilterValues) => void;
   filters: Filters;
   choices: Choices;
+  avaliar: (medalType: string, game_id: number) => void;
+  medals: Medals;
+  jogoFavorito: number;
+  marcarComoFavorito: (game_id: number) => void;
+  acessados: Record<number, boolean>;
+  acessar: (game_id: number) => void;
 }
 //#endregion
 
@@ -45,14 +57,24 @@ type Choices = Record<ToggleFilterTypes, Choice>
 //#region Filter types
 export type ToggleFilterTypes = 'quero_jogar' | 'jogando' | 'favorito' | 'ja_joguei' | 'zerei';
 
-type FilterTypes = ToggleFilterTypes | 'genre' | 'pc' | 'web' | 'text';
+type FilterTypes = ToggleFilterTypes | 'genre' | 'pc' | 'web' | 'text' | 'medal';
 
 type FilterValues = string | boolean | string[];
 
 type Filters = Record<FilterTypes, FilterValues>;
 //#endregion
 
+type Medals = Record<number, string>;
+
 export const gamesContext = createContext({} as ContextType);
+
+export const medalsList: Record<string, string> = {
+  verde,
+  amarelo,
+  laranja,
+  azul,
+  vermelho
+}
 
 export const GamesProvider: React.FC = ({children}) => {  
   useEffect(() => {
@@ -66,6 +88,9 @@ export const GamesProvider: React.FC = ({children}) => {
   const [jogando, toggleJogando] = usePermChoice('jogando');
   const [jaJoguei, toggleJaJoguei] = usePermChoice('jaJoguei');
   const [zerei, toggleZerei] = usePermChoice('zerei');
+  const [medals, setMedals] = usePermState<Medals>('avaliacoes', {} as Medals);
+  const [jogoFavorito, setJogoFavorito] = usePermState('jogoFavorito', -1);
+  const [acessados, setAcessados] = usePermState<Record<number, boolean>>('acessados',  {});
 
   async function fetchGames(){
     const res: AxiosResponse<GameAPI[]> = await axios.request({
@@ -73,7 +98,8 @@ export const GamesProvider: React.FC = ({children}) => {
       url: 'https://free-to-play-games-database.p.rapidapi.com/api/games',
       headers: {
         'x-rapidapi-host': 'free-to-play-games-database.p.rapidapi.com',
-        'x-rapidapi-key': process.env.REACT_APP_GAME_API_KEY
+        'x-rapidapi-key': process.env.REACT_APP_GAME_API_KEY,
+        'Access-Control-Allow-Origin': '*'
       }
     });
 
@@ -108,6 +134,28 @@ export const GamesProvider: React.FC = ({children}) => {
     })
   }
 
+  function avaliar(medalType: string, game_id: number){
+    setMedals(prev => {
+      return {
+        ...prev,
+        [game_id]: medalType
+      }
+    })
+  }
+
+  function marcarComoFavorito(game_id: number){
+    setJogoFavorito(game_id - 1);
+  }
+
+  function acessar(game_id: number){
+    setAcessados(prev => {
+      return {
+        ...prev,
+        [game_id]: true
+      }
+    })
+  }
+
   const choices: Choices = {
     favorito: {
       value: favorito,
@@ -135,7 +183,13 @@ export const GamesProvider: React.FC = ({children}) => {
     gamesRaw,
     addFilter, 
     filters,
-    choices
+    choices,
+    avaliar,
+    medals,
+    jogoFavorito,
+    marcarComoFavorito,
+    acessados,
+    acessar
   }
 
   return (
