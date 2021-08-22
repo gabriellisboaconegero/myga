@@ -5,7 +5,6 @@ import { GameCard } from '../components/GameCard';
 import { SearchBar } from '../components/SearchBar';
 import { Choice, Game, ToggleFilterTypes } from '../gamesContext';
 import { useGames } from '../useGames';
-import { HeaderWrapper } from './styles';
 
 export const Home:React.FC = () => {
   const [page, setPage] = useState(1);
@@ -58,7 +57,7 @@ export const Home:React.FC = () => {
   }
 
   return (
-    <HeaderWrapper>
+    <div>
       <Filter />
       <SearchBar />
       {games().map(game => {
@@ -88,7 +87,7 @@ export const Home:React.FC = () => {
 
       <span>{page}</span>
 
-    </HeaderWrapper>
+    </div>
     
   );
 }

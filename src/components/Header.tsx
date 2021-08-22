@@ -1,17 +1,26 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useGames } from '../useGames';
-import {GiSpellBook, GiOrbWand} from 'react-icons/gi';
+import {GiOrbWand} from 'react-icons/gi';
+import {BsController} from 'react-icons/bs';
+import { HeaderWrapper, LinkPage } from '../pages/styles';
 
 export const Header: React.FC = () => {
   const {gamesRaw, jogoFavorito} = useGames();
   const location = useLocation();
+  const history = useHistory();
+  const isProfile = location.pathname === '/profile'
+  
+  function goPath(){
+    history.push(isProfile? '/' : '/profile');
+  }
   return(
-    <header>
-      <h1>Myga, meus games</h1>
-      <Link to={location.pathname === '/profile'? '/' : '/profile'}>
-        {gamesRaw[jogoFavorito] && location.pathname === '/profile'? <GiOrbWand fontSize="40px" /> : <GiSpellBook fontSize="40px" />}
-      </Link>
-    </header>
+    <HeaderWrapper>
+      <h1>Myga <span>meus games</span></h1>
+      <LinkPage onClick={e => goPath()}>
+        {gamesRaw[jogoFavorito] && isProfile? <GiOrbWand/> : <BsController/>}
+        <span>{isProfile? 'Ir para a lista': 'Ir para os status'}</span>
+      </LinkPage>
+    </HeaderWrapper>
   )
 }
