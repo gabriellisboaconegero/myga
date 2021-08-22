@@ -37,7 +37,7 @@ type ContextType ={
   addFilter: (type: FilterTypes, filter: FilterValues) => void;
   filters: Filters;
   choices: Choices;
-  avaliar: (medalType: string, game_id: number) => void;
+  avaliar: (medalType: number, game_id: number) => void;
   medals: Medals;
   jogoFavorito: number;
   marcarComoFavorito: (game_id: number) => void;
@@ -62,22 +62,22 @@ export type ToggleFilterTypes = 'quero_jogar' | 'jogando' | 'favorito' | 'ja_jog
 
 type FilterTypes = ToggleFilterTypes | 'genre' | 'pc' | 'web' | 'text' | 'medal';
 
-type FilterValues = string | boolean | string[];
+type FilterValues = string | boolean | string[] | number;
 
 type Filters = Record<FilterTypes, FilterValues>;
 //#endregion
 
-type Medals = Record<number, string>;
+export type Medals = Record<number, number>;
 
 export const gamesContext = createContext({} as ContextType);
 
-export const medalsList: Record<string, JSX.Element> = {
-  1: <FaChessPawn />,
-  2: <FaChessRook />,
-  3: <FaChessKnight />,
-  4: <FaChessQueen />,
-  5: < FaChessKing />
-}
+export const medalsList: JSX.Element[] = [
+  <FaChessPawn />,
+  <FaChessRook />,
+  <FaChessKnight />,
+  <FaChessQueen />,
+  < FaChessKing />
+]
 
 export const GamesProvider: React.FC = ({children}) => {  
   useEffect(() => {
@@ -137,11 +137,11 @@ export const GamesProvider: React.FC = ({children}) => {
     })
   }
 
-  function avaliar(medalType: string, game_id: number){
+  function avaliar(avaliacao: number, game_id: number){
     setMedals(prev => {
       return {
         ...prev,
-        [game_id]: medalType
+        [game_id]: avaliacao
       }
     })
   }

@@ -23,7 +23,7 @@ export const GameCard: React.FC<PropsType> = ({game}) => {
   return (
     <div>
       <div>
-        {Object.entries(medalsList).map(([avaliacao, icon]) => {
+        {medalsList.map((icon, avaliacao) => {
           return (
             <div key={`${game.id}_medals_${avaliacao}`}>
               <label htmlFor={`${avaliacao}_${game.id}`}>
@@ -34,8 +34,8 @@ export const GameCard: React.FC<PropsType> = ({game}) => {
                 name={`medal_${game.id}`} 
                 id={`${avaliacao}_${game.id}`} 
                 value={`${avaliacao}`}
-                onChange={e => avaliar(e.target.value, game.id)}
-                defaultChecked={medals[game.id] === `${avaliacao}`}
+                onChange={e => avaliar(parseInt(e.target.value), game.id)}
+                defaultChecked={medals[game.id] === avaliacao}
               />
             </div>
           )

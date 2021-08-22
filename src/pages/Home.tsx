@@ -43,7 +43,11 @@ export const Home:React.FC = () => {
         temporaryGames = temporaryGames.filter(game => game.genre.toLowerCase() === filterEntries[1].toString().toLowerCase().replace('-', ' '));
       }else if(filterEntries[0] === 'medal'){
         if (filterEntries[1] === 'all') continue
-        temporaryGames = temporaryGames.filter(game => medals[game.id] === filterEntries[1])
+        temporaryGames = temporaryGames.filter(game =>{
+          console.log(typeof medals[game.id], medals);
+          console.log(typeof filterEntries[1])
+          return parseInt(`${medals[game.id]}`) === filterEntries[1]
+        })
       }else if(typeof filterEntries[1] === 'boolean' && filterEntries[1]){
         // o filterEntries[0] é usado como chave para o choices e escolher qual atributo filtrar
         // favorito, querendo_jogar, etc.

@@ -32,7 +32,7 @@ export const Filter: React.FC = () => {
 
       <MedalsFiltersContainer>
         <h3>Medalhas</h3>
-        {Object.entries(medalsList).map(([avaliacao, icon]) => {
+        {medalsList.map((icon, avaliacao) => {
           return (
             <div key={`medals_filter_${avaliacao}`}>
               <label htmlFor={`medal_${avaliacao}`}>

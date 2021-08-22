@@ -15,7 +15,7 @@ export const Profile: React.FC = () => {
   } =useGames();
 
   function findMostUsedmedals(){
-    const medalsCount: Record<string, number> = {};
+    const medalsCount: Record<number, number> = {};
     for (let i in medals){
       const medal = medals[i]
       if (medalsCount[medal]){
@@ -64,7 +64,7 @@ export const Profile: React.FC = () => {
             {findMostUsedmedals().map((value, id) => {
               return (
                 <div key={value[0] + '_medal_' + id }>
-                  {medalsList[value[0]]}
+                  {medalsList[parseInt(value[0])]}
                   <span>{value[1]}</span>
                 </div>
               )
