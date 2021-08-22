@@ -23,23 +23,19 @@ export const GameCard: React.FC<PropsType> = ({game}) => {
   return (
     <div>
       <div>
-        {Object.entries(medalsList).map(([cor, imgSvg]) => {
+        {Object.entries(medalsList).map(([avaliacao, icon]) => {
           return (
-            <div key={`${game.id}_medals_${cor}`}>
-              <label htmlFor={`${cor}_${game.id}`}>
-              <img 
-                width="30px"
-                src={imgSvg} 
-                alt={`Capacete ${cor}`}
-              />
+            <div key={`${game.id}_medals_${avaliacao}`}>
+              <label htmlFor={`${avaliacao}_${game.id}`}>
+              {icon}
               </label>
               <input 
                 type="radio" 
                 name={`medal_${game.id}`} 
-                id={`${cor}_${game.id}`} 
-                value={`${cor}`}
+                id={`${avaliacao}_${game.id}`} 
+                value={`${avaliacao}`}
                 onChange={e => avaliar(e.target.value, game.id)}
-                defaultChecked={medals[game.id] === `${cor}`}
+                defaultChecked={medals[game.id] === `${avaliacao}`}
               />
             </div>
           )

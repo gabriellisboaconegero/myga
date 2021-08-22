@@ -6,7 +6,6 @@ import {
   Route,
   Switch
 } from 'react-router-dom'
-import { Header } from './components/Header';
 import { Profile } from './pages/Profile';
 import { GlobalStyles } from './styles/global';
 
@@ -15,7 +14,6 @@ function App() {
     <GamesProvider>
       <GlobalStyles />
       <Router>
-        <Header />
         <Switch>
           <Route exact path='/'>
             <Home />

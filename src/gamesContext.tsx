@@ -2,11 +2,14 @@ import React, { createContext, useEffect, useState } from "react";
 import axios, { AxiosResponse } from 'axios';
 import { usePermChoice } from "./usePermChoice";
 import { usePermState } from "./usePermState";
-import laranja from './assets/laranja.svg';
-import amarelo from './assets/amarelo.svg'
-import verde from './assets/verde.svg'
-import azul from './assets/azul.svg'
-import vermelho from './assets/vermelho.svg'
+import {
+  FaChessBishop,
+  FaChessPawn,
+  FaChessKing,
+  FaChessKnight,
+  FaChessQueen,
+  FaChessRook
+} from 'react-icons/fa';
 
 //#region Context types
 type GameAPI = {
@@ -68,12 +71,12 @@ type Medals = Record<number, string>;
 
 export const gamesContext = createContext({} as ContextType);
 
-export const medalsList: Record<string, string> = {
-  verde,
-  amarelo,
-  laranja,
-  azul,
-  vermelho
+export const medalsList: Record<string, JSX.Element> = {
+  1: <FaChessPawn />,
+  2: <FaChessRook />,
+  3: <FaChessKnight />,
+  4: <FaChessQueen />,
+  5: < FaChessKing />
 }
 
 export const GamesProvider: React.FC = ({children}) => {  

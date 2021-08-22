@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { GiTowerFlag } from "react-icons/gi";
+import { BsBookmarkFill } from "react-icons/bs";
 import { ToggleFilterTypes } from "../gamesContext";
 import { useGames } from "../useGames";
 import { CheckboxFilterStyled } from "./styles";
@@ -18,7 +18,7 @@ export const CheckboxFilter: React.FC<Props> = ({keyProp}) => {
       addFilter(keyProp as ToggleFilterTypes, !checked);
       setChecked(!checked);
     }}>
-      <GiTowerFlag />
+      <BsBookmarkFill />
       <span>{keyProp !== 'pc' || 'web'? keyProp.replace('_', ' '): keyProp}</span>
     </CheckboxFilterStyled>
   )

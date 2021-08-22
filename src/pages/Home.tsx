@@ -2,9 +2,11 @@ import React from 'react';
 import { useState } from 'react';
 import { Filter } from '../components/Filter';
 import { GameCard } from '../components/GameCard';
+import { Header } from '../components/Header';
 import { SearchBar } from '../components/SearchBar';
 import { Choice, Game, ToggleFilterTypes } from '../gamesContext';
 import { useGames } from '../useGames';
+import { HomeWrapper } from './styles';
 
 export const Home:React.FC = () => {
   const [page, setPage] = useState(1);
@@ -57,37 +59,36 @@ export const Home:React.FC = () => {
   }
 
   return (
-    <div>
+    <HomeWrapper>
       <Filter />
-      <SearchBar />
-      {games().map(game => {
-        return (
-          <GameCard key={game.title} game={game} />
-        );
-      })}
-      <button
-        onClick={e => setPage(1)}
-        disabled={page === 1}
-      >Primeira pg</button>
-
-      <button
-        onClick={e => setPage(prev => prev + 1)}
-        disabled={page >= Math.floor(gamesRaw.length / 20) + 1}
-      >Proximo</button>
-
-      <button
-        onClick={e => setPage(prev => prev - 1)}
-        disabled={page === 1}
-      >Anterior</button>
-
-      <button
-        onClick={e => setPage(Math.floor(gamesRaw.length / 20) + 1)}
-        disabled={page >= Math.floor(gamesRaw.length / 20) + 1}
-      >Ultimo</button>
-
-      <span>{page}</span>
-
-    </div>
-    
+      <main>
+        <Header />
+        <div>
+          <SearchBar />
+          {games().map(game => {
+            return (
+              <GameCard key={game.title} game={game} />
+            );
+          })}
+          <button
+            onClick={e => setPage(1)}
+            disabled={page === 1}
+          >Primeira pg</button>
+          <button
+            onClick={e => setPage(prev => prev + 1)}
+            disabled={page >= Math.floor(gamesRaw.length / 20) + 1}
+          >Proximo</button>
+          <button
+            onClick={e => setPage(prev => prev - 1)}
+            disabled={page === 1}
+          >Anterior</button>
+          <button
+            onClick={e => setPage(Math.floor(gamesRaw.length / 20) + 1)}
+            disabled={page >= Math.floor(gamesRaw.length / 20) + 1}
+          >Ultimo</button>
+          <span>{page}</span>
+        </div>
+      </main>
+    </HomeWrapper>
   );
 }

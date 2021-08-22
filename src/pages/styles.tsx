@@ -47,3 +47,11 @@ export const LinkPage = styled.button`
     }
   }
 `
+
+export const HomeWrapper = styled.div`
+
+`
+
+export const ProfileWrapper = styled.div`
+  
+`
