@@ -49,7 +49,7 @@ export const GameCard: React.FC<PropsType> = ({game}) => {
           <div className="blurredDiv">
             <span>{game.title}</span>
             <button
-              className={game.id === jogoFavorito + 1? 'checked' : ''}
+              className={game.id === jogoFavorito? 'checked' : ''}
               onClick={e => marcarComoFavorito(game.id)}
               title='Jogo favorito'
             >

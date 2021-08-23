@@ -1,7 +1,7 @@
 import React from "react";
 import { useGames } from "../useGames";
 import {BsBookmark} from 'react-icons/bs'
-import { medalsList } from "../gamesContext";
+import { medalsList, Game } from "../gamesContext";
 import { ProfileWrapper, FavGamesList, FavGameContainer } from "./styles";
 import { Header } from "../components/Header";
 import { GameImage } from "../components/styles";
@@ -29,19 +29,22 @@ export const Profile: React.FC = () => {
     return Object.entries(medalsCount).sort((a,b) => b[1]- a[1]).slice(0, 3);
   }
 
+  function FavoriteGameData(): Game{
+    return gamesRaw.filter(game => game.id === jogoFavorito)[0]
+  }
   return (
       <div>
         <Header />
         <ProfileWrapper>
           <FavGameContainer>
             <h2>Jogo Favorito</h2>
-            {gamesRaw[jogoFavorito] && (
+            {FavoriteGameData() && (
               <GameImage>
-                <img src={gamesRaw[jogoFavorito].thumbnail} alt={gamesRaw[jogoFavorito].title} />
+                <img src={FavoriteGameData().thumbnail} alt={FavoriteGameData().title} />
                 <div className="blurredDiv">
-                  <span>{gamesRaw[jogoFavorito].title}</span>
+                  <span>{FavoriteGameData().title}</span>
                   <button
-                    className={gamesRaw[jogoFavorito].id === jogoFavorito + 1? 'checked' : ''}
+                    className={FavoriteGameData().id === jogoFavorito? 'checked' : ''}
                     title='Jogo favorito'
                   >
                     <RiShieldStarFill />
@@ -55,7 +58,7 @@ export const Profile: React.FC = () => {
               <h2>Favoritos</h2>
               <BsBookmark />
             </header>
-            {gamesRaw.filter(game => choices.favorito.value[game.id] && game.id !== jogoFavorito + 1).map(game => {
+            {gamesRaw.filter(game => choices.favorito.value[game.id] && game.id !== jogoFavorito).map(game => {
               return (
                 <div key={`${game.id}_favoritos_profile`}>
                   <p>{game.title}</p>

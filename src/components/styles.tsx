@@ -290,6 +290,7 @@ export const GameImage = styled.div`
       display: flex;
       padding: 1rem;
       border-radius: 50%;
+      outline: none;
 
       &.checked{
         color: yellow;

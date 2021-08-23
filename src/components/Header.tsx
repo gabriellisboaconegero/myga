@@ -6,13 +6,14 @@ import {BsController} from 'react-icons/bs';
 import { HeaderWrapper, LinkPage } from './styles';
 
 export const Header: React.FC = () => {
-  const {gamesRaw, jogoFavorito} = useGames();
+  const {gamesRaw, jogoFavorito, clearFilters} = useGames();
   const location = useLocation();
   const history = useHistory();
   const isProfile = location.pathname === '/profile'
   
   function goPath(){
     history.push(isProfile? '/' : '/profile');
+    clearFilters();
   }
   return(
     <HeaderWrapper>

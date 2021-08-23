@@ -67,7 +67,6 @@ export const FavGamesList = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  flex-direction: column;
   align-content: flex-start;
   height: 500px;
   width: 100%;
@@ -78,6 +77,13 @@ export const FavGamesList = styled.div`
   }
 
   >div{
-    flex: 50%;
+    flex: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    p{
+      display: none;
+    }
   }
 `

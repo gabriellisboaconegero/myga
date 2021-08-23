@@ -43,6 +43,7 @@ type ContextType ={
   marcarComoFavorito: (game_id: number) => void;
   acessados: Record<number, boolean>;
   acessar: (game_id: number) => void;
+  clearFilters: () => void;
 }
 //#endregion
 
@@ -148,7 +149,7 @@ export const GamesProvider: React.FC = ({children}) => {
   }
 
   function marcarComoFavorito(game_id: number){
-    setJogoFavorito(game_id - 1);
+    setJogoFavorito(game_id);
   }
 
   function acessar(game_id: number){
@@ -158,6 +159,10 @@ export const GamesProvider: React.FC = ({children}) => {
         [game_id]: true
       }
     })
+  }
+
+  function clearFilters(){
+    setFilters({} as Filters)
   }
 
   const choices: Choices = {
@@ -193,7 +198,8 @@ export const GamesProvider: React.FC = ({children}) => {
     jogoFavorito,
     marcarComoFavorito,
     acessados,
-    acessar
+    acessar,
+    clearFilters
   }
 
   return (
