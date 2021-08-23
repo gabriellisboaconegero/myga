@@ -1,8 +1,7 @@
 import React from "react";
 import { medalsList } from "../gamesContext";
 import { useGames } from "../useGames";
-import {BsChevronCompactRight, BsBookmarkFill} from 'react-icons/bs';
-import { useState } from "react";
+import {BsBookmarkFill} from 'react-icons/bs';
 import { FilterContainer, FilterWrapper, ShowFiltersButton ,ButtonFilter, Button } from "./styles";
 import { CheckboxFilter } from "./CheckboxFilter";
 
@@ -14,16 +13,10 @@ const genres = ['action-rpg', 'fighting', 'fantasy', 'mmo', 'battle-royale', 'ca
 
 export const Filter: React.FC<Props> = ({open}) => {
   const {setFilter, choices, filters} = useGames();
-  // const [open, setOpen] = useState(false);
 
   return (
     <FilterWrapper className={open? 'open': ''}>
       <h1>Filtros</h1>
-{/* 
-      <ShowFiltersButton onClick={e => setOpen(!open)} title="Filtros">
-        <BsChevronCompactRight />  
-      </ShowFiltersButton> */}
-
       <FilterContainer>
         <h3>Geral</h3>
         <div className="filters">

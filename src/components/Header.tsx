@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { useGames } from '../useGames';
 import {GiOrbWand} from 'react-icons/gi';
 import {BsController} from 'react-icons/bs';

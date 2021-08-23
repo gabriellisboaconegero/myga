@@ -1,5 +1,5 @@
 import React from 'react';
-import { ToggleFilterTypes, Game, medalsList } from '../gamesContext';
+import { Game, medalsList } from '../gamesContext';
 import { useGames } from '../useGames';
 
 import {RiShieldStarFill} from 'react-icons/ri';
