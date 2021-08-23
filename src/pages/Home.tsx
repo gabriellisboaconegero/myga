@@ -7,10 +7,12 @@ import { SearchBar } from '../components/SearchBar';
 import { Choice, Game, ToggleFilterTypes } from '../gamesContext';
 import { useGames } from '../useGames';
 import { GamesListWrapper, HomeWrapper, PaginationContainer } from './styles';
-import {BsChevronLeft, BsChevronRight, BsChevronBarLeft, BsChevronBarRight} from 'react-icons/bs';
+import {BsChevronLeft, BsChevronRight, BsChevronBarLeft, BsChevronBarRight, BsChevronCompactRight} from 'react-icons/bs';
+import { ShowFiltersButton } from '../components/styles';
 
 export const Home:React.FC = () => {
   const [page, setPage] = useState(1);
+  const [open, setOpen] = useState(false);
   const {gamesRaw, filters, choices, medals} = useGames();
 
   function games(){
@@ -63,8 +65,11 @@ export const Home:React.FC = () => {
 
   return (
     <div>
-      <Filter />
+      <Filter open={open} />
       <main>
+        <ShowFiltersButton className='openButton' onClick={e => setOpen(!open)} title="Filtros">
+          <BsChevronCompactRight />  
+        </ShowFiltersButton>
         <Header />
         <HomeWrapper>
           <SearchBar />
@@ -76,7 +81,7 @@ export const Home:React.FC = () => {
             })}
           </GamesListWrapper>
         </HomeWrapper>
-        {/* <PaginationContainer>
+        <PaginationContainer>
             <button
               onClick={e => setPage(1)}
               disabled={page === 1}
@@ -104,7 +109,7 @@ export const Home:React.FC = () => {
             > 
               <BsChevronBarRight />
             </button>
-          </PaginationContainer> */}
+          </PaginationContainer>
       </main>
     </div>
   );

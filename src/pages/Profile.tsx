@@ -1,8 +1,7 @@
 import React from "react";
 import { useGames } from "../useGames";
-import {BsBookmark} from 'react-icons/bs'
 import { medalsList, Game } from "../gamesContext";
-import { ProfileWrapper, FavGamesList, FavGameContainer } from "./styles";
+import { ProfileWrapper, GamesList, FavGameContainer, MedalsPodioContainer, MedalBar } from "./styles";
 import { Header } from "../components/Header";
 import { GameImage } from "../components/styles";
 import { RiShieldStarFill } from "react-icons/ri";
@@ -53,41 +52,36 @@ export const Profile: React.FC = () => {
               </GameImage>
             )}
           </FavGameContainer>
-          <FavGamesList>
-            <header>
-              <h2>Favoritos</h2>
-              <BsBookmark />
-            </header>
-            {gamesRaw.filter(game => choices.favorito.value[game.id] && game.id !== jogoFavorito).map(game => {
+          <GamesList>
+            <h2>Favoritos</h2>
+            {gamesRaw.filter(game => choices.favorito.value[game.id]).map(game => {
               return (
-                <div key={`${game.id}_favoritos_profile`}>
-                  <p>{game.title}</p>
+                <div className="gameImgContainer" key={`${game.id}_favoritos_profile`}>
                   <img width="200px" src={game.thumbnail} alt={game.title} />
                 </div>
             )})}
-          </FavGamesList>
-          <div>
+          </GamesList>
+          <GamesList>
             <h2>Jogos baixados / jogados</h2>
             {gamesRaw.filter(game => acessados[game.id]).map(game => {
               return (
-                <div key={`${game.id}_acessados_profile`}>
-                  <p>{game.title}</p>
+                <div className="gameImgContainer" key={`${game.id}_acessados_profile`}>
                   <img src={game.thumbnail} alt={game.title} />
                 </div>
               )
             })}
-          </div>
-          <div>
+          </GamesList>
+          <MedalsPodioContainer>
             <h2>Avalições mais dadas</h2>
             {findMostUsedmedals().map((value, id) => {
               return (
-                <div key={value[0] + '_medal_' + id }>
-                  {medalsList[parseInt(value[0])]}
+                <MedalBar quantidade={value[1]} key={value[0] + '_medal_' + id }>
+                  <span>{medalsList[parseInt(value[0])]}</span>
                   <span>{value[1]}</span>
-                </div>
+                </MedalBar>
               )
             })}
-          </div>
+          </MedalsPodioContainer>
         </ProfileWrapper>
       </div>
   )

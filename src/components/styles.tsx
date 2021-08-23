@@ -41,7 +41,7 @@ export const FilterWrapper = styled.div`
   padding: 1.5rem;
   border-right: 2px solid red;
 
-  transform: translateX(-100%);
+  transform: translateX(-150%);
   transition: transform 0.2s;
 
   h1{
@@ -61,11 +61,12 @@ export const FilterWrapper = styled.div`
       display: none;
     }
     & + main{
-      margin-left: 30%;
+      margin-left: 25%;
     }
 
-    >button{
-      transform: rotateY(180deg) translateY(-50%);
+    & + main .openButton{
+      left: 25%;
+      transform: rotateY(180deg) translateY(-50%) translateX(100%);
       svg{
         transform: rotateZ(180deg);
       }
@@ -76,7 +77,7 @@ export const FilterWrapper = styled.div`
 export const ShowFiltersButton = styled.button`
   position: fixed;
   top: 50%;
-  right: 0;
+  left: 0;
 
   font-size: 1.25rem;
   display: flex;
@@ -88,7 +89,8 @@ export const ShowFiltersButton = styled.button`
   color: #F5F5F5;
   cursor: pointer;
 
-  transform: translateX(100%) translateY(-50%);
+  transform: translateY(-50%);
+  transition: left 0.2s;
 `
 
 export const ButtonFilter = styled.button<{checked: boolean, showSvg?: boolean, color?: string}>`

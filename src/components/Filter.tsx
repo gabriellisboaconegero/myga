@@ -6,19 +6,23 @@ import { useState } from "react";
 import { FilterContainer, FilterWrapper, ShowFiltersButton ,ButtonFilter, Button } from "./styles";
 import { CheckboxFilter } from "./CheckboxFilter";
 
+type Props = {
+  open: boolean;
+}
+
 const genres = ['action-rpg', 'fighting', 'fantasy', 'mmo', 'battle-royale', 'card', 'social', 'sports', 'racing',  'moba', 'strategy', 'shooter', 'mmorpg'];
 
-export const Filter: React.FC = () => {
+export const Filter: React.FC<Props> = ({open}) => {
   const {setFilter, choices, filters} = useGames();
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
   return (
     <FilterWrapper className={open? 'open': ''}>
       <h1>Filtros</h1>
-
+{/* 
       <ShowFiltersButton onClick={e => setOpen(!open)} title="Filtros">
         <BsChevronCompactRight />  
-      </ShowFiltersButton>
+      </ShowFiltersButton> */}
 
       <FilterContainer>
         <h3>Geral</h3>
