@@ -1,35 +1,41 @@
 import React, { FormEvent } from "react";
 import { useState } from "react";
 import { useGames } from "../useGames";
+import { Button, CheckedButton, SearchBarWrapper } from "./styles";
+import {FaSearch} from 'react-icons/fa';
 
 export const SearchBar: React.FC = () => {
 
-  const [filter, setFilter] = useState('');
-  const {addFilter} = useGames();
+  const [filterInput, setFilterInput] = useState('');
+  const {setFilter} = useGames();
   const [dynamic, setDynamic] = useState(false);
 
   function search(e: FormEvent){
     e.preventDefault();
-    addFilter('text', filter.toLowerCase().trim());
+    setFilter('text', filterInput.toLowerCase().trim());
   }
 
   return (
-    <header>
-      <button
+    <SearchBarWrapper>
+      <CheckedButton
         onClick={e => setDynamic(prev => !prev)}
-      >Buscar {dynamic? 'Estática': 'Dinâmica'}</button>
+        checked={dynamic}
+      >
+        Buscar dinâmica
+      </CheckedButton>
       <form onSubmit={search}>
         <input
           type="text"
-          value={filter}
+          value={filterInput}
+          placeholder="Jogo / #id"
           onChange={e => {
-            setFilter(e.target.value);
-            if (dynamic) addFilter('text', e.target.value.toLowerCase().trim());
+            setFilterInput(e.target.value);
+            if (dynamic) setFilter('text', e.target.value.toLowerCase().trim());
           }}
         />
-        <p>Para buscar pelo id use "#". Ex: "#100"</p>
-        <button type="submit" disabled={dynamic}>Pesquisar</button>
+        <button type="submit" disabled={dynamic}><FaSearch /></button>
       </form>
-    </header>
+      <p>Para buscar pelo id use "#". Ex: "#100"</p>
+    </SearchBarWrapper>
   )
 }

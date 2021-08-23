@@ -6,7 +6,8 @@ import { Header } from '../components/Header';
 import { SearchBar } from '../components/SearchBar';
 import { Choice, Game, ToggleFilterTypes } from '../gamesContext';
 import { useGames } from '../useGames';
-import { HomeWrapper } from './styles';
+import { GamesListWrapper, HomeWrapper, PaginationContainer } from './styles';
+import {BsChevronLeft, BsChevronRight, BsChevronBarLeft, BsChevronBarRight} from 'react-icons/bs';
 
 export const Home:React.FC = () => {
   const [page, setPage] = useState(1);
@@ -44,8 +45,6 @@ export const Home:React.FC = () => {
       }else if(filterEntries[0] === 'medal'){
         if (filterEntries[1] === 'all') continue
         temporaryGames = temporaryGames.filter(game =>{
-          console.log(typeof medals[game.id], medals);
-          console.log(typeof filterEntries[1])
           return parseInt(`${medals[game.id]}`) === filterEntries[1]
         })
       }else if(typeof filterEntries[1] === 'boolean' && filterEntries[1]){
@@ -63,36 +62,50 @@ export const Home:React.FC = () => {
   }
 
   return (
-    <HomeWrapper>
+    <div>
       <Filter />
       <main>
         <Header />
-        <div>
+        <HomeWrapper>
           <SearchBar />
-          {games().map(game => {
-            return (
-              <GameCard key={game.title} game={game} />
-            );
-          })}
-          <button
-            onClick={e => setPage(1)}
-            disabled={page === 1}
-          >Primeira pg</button>
-          <button
-            onClick={e => setPage(prev => prev + 1)}
-            disabled={page >= Math.floor(gamesRaw.length / 20) + 1}
-          >Proximo</button>
-          <button
-            onClick={e => setPage(prev => prev - 1)}
-            disabled={page === 1}
-          >Anterior</button>
-          <button
-            onClick={e => setPage(Math.floor(gamesRaw.length / 20) + 1)}
-            disabled={page >= Math.floor(gamesRaw.length / 20) + 1}
-          >Ultimo</button>
-          <span>{page}</span>
-        </div>
+          <GamesListWrapper>
+            {games().map(game => {
+              return (
+                <GameCard key={game.title} game={game} />
+              );
+            })}
+          </GamesListWrapper>
+        </HomeWrapper>
+        {/* <PaginationContainer>
+            <button
+              onClick={e => setPage(1)}
+              disabled={page === 1}
+            >
+              <BsChevronBarLeft />
+            </button>
+            <button
+              onClick={e => setPage(prev => prev - 1)}
+              disabled={page === 1}
+            >
+              <BsChevronLeft />
+            </button>
+            <span>
+              {page}
+            </span>
+            <button
+              onClick={e => setPage(prev => prev + 1)}
+              disabled={page >= Math.floor(gamesRaw.length / 20) + 1}
+            >
+              <BsChevronRight /> 
+            </button>
+            <button
+              onClick={e => setPage(Math.floor(gamesRaw.length / 20) + 1)}
+              disabled={page >= Math.floor(gamesRaw.length / 20) + 1}
+            > 
+              <BsChevronBarRight />
+            </button>
+          </PaginationContainer> */}
       </main>
-    </HomeWrapper>
+    </div>
   );
 }

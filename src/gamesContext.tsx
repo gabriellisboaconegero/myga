@@ -34,7 +34,7 @@ export interface Game extends GameAPI {
 
 type ContextType ={
   gamesRaw: Game[];
-  addFilter: (type: FilterTypes, filter: FilterValues) => void;
+  setFilter: (type: FilterTypes, filter: FilterValues) => void;
   filters: Filters;
   choices: Choices;
   avaliar: (medalType: number, game_id: number) => void;
@@ -74,6 +74,7 @@ export const gamesContext = createContext({} as ContextType);
 export const medalsList: JSX.Element[] = [
   <FaChessPawn />,
   <FaChessRook />,
+  <FaChessBishop />,
   <FaChessKnight />,
   <FaChessQueen />,
   < FaChessKing />
@@ -128,7 +129,7 @@ export const GamesProvider: React.FC = ({children}) => {
   }
 
   // O add filter adiciona ao objeto o nome do filtro (texte, jogando, etc.) como key e um boolean como valor
-  function addFilter(type: FilterTypes, filter: FilterValues){
+  function setFilter(type: FilterTypes, filter: FilterValues){
     setFilters(prev => {
       return {
         ...prev,
@@ -184,7 +185,7 @@ export const GamesProvider: React.FC = ({children}) => {
 
   const contextValues: ContextType = {
     gamesRaw,
-    addFilter, 
+    setFilter, 
     filters,
     choices,
     avaliar,

@@ -4,6 +4,7 @@ import { useGames } from '../useGames';
 
 import {RiShieldStarFill} from 'react-icons/ri';
 import {BsBookmark, BsBookmarkFill} from 'react-icons/bs';
+import { ButtonFilter, GameCardWrapper, GameImage, MainContainer, MedalsContainer } from './styles';
 
 // import 
 
@@ -21,40 +22,36 @@ export const GameCard: React.FC<PropsType> = ({game}) => {
     acessar
   } = useGames();
   return (
-    <div>
-      <div>
+    <GameCardWrapper>
+      <MedalsContainer>
         {medalsList.map((icon, avaliacao) => {
           return (
-            <div key={`${game.id}_medals_${avaliacao}`}>
-              <label htmlFor={`${avaliacao}_${game.id}`}>
+            <ButtonFilter
+              key={`${game.id}_medals_${avaliacao}`}
+              noText
+              checked={medals[game.id] === avaliacao}
+              onClick={e => avaliar(avaliacao, game.id)}
+            >
               {icon}
-              </label>
-              <input 
-                type="radio" 
-                name={`medal_${game.id}`} 
-                id={`${avaliacao}_${game.id}`} 
-                value={`${avaliacao}`}
-                onChange={e => avaliar(parseInt(e.target.value), game.id)}
-                defaultChecked={medals[game.id] === avaliacao}
-              />
-            </div>
+            </ButtonFilter>
           )
         })}
-      </div>
-      <span>{game.title}</span>
-      <img src={game.thumbnail} alt={game.title} />
-      <label htmlFor={`jogo_favorito_${game.id}`}>
-        <RiShieldStarFill />
-      </label>
-      <input 
-        type="radio" 
-        name="jogo_favorito" 
-        id={`jogo_favorito_${game.id}`}
-        onChange={e => marcarComoFavorito(game.id)}
-        defaultChecked={game.id === jogoFavorito + 1}
-      />
-      <p>{game.short_description}</p>
-      <div>
+      </MedalsContainer>
+      <GameImage>
+          <img src={game.thumbnail} alt={game.title} />
+          <div className="blurredDiv">
+            <span>{game.title}</span>
+            <button
+              className={game.id === jogoFavorito + 1? 'checked' : ''}
+              onClick={e => marcarComoFavorito(game.id)}
+              title='Jogo favorito'
+            >
+              <RiShieldStarFill />
+            </button>
+          </div>
+        </GameImage>
+      <MainContainer>
+        <p>{game.short_description}</p>
         <span>Gênero: {game.genre}</span>
         <br />
         <span>Plataforma: {game.platform}</span>
@@ -63,7 +60,8 @@ export const GameCard: React.FC<PropsType> = ({game}) => {
         <br />
         <span>Data de lançamento: {new Date(game.release_date).getFullYear()}</span>
         <br />
-
+      </MainContainer>
+      <footer>
         {Object.entries(choices).map(([key, choice]) => {
           return (
             <div key={game.id + key}>
@@ -89,8 +87,7 @@ export const GameCard: React.FC<PropsType> = ({game}) => {
           target="_blank"
           onClick={e => acessar(game.id)}
         >{game.platform.indexOf('Web') !== -1? 'Jogar' : 'Instalar'}</a>
-      </div>
-      <br />
-    </div>
+      </footer>
+    </GameCardWrapper>
   )
 }

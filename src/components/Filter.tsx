@@ -1,16 +1,15 @@
 import React from "react";
-import { medalsList, ToggleFilterTypes } from "../gamesContext";
+import { medalsList } from "../gamesContext";
 import { useGames } from "../useGames";
-import zofiaImg from '../assets/zofia.svg';
-import {BsChevronCompactRight} from 'react-icons/bs';
+import {BsChevronCompactRight, BsBookmarkFill} from 'react-icons/bs';
 import { useState } from "react";
-import { CheckboxFiltersContainer, FilterWrapper, GenreFiltersContainer, MedalsFiltersContainer, ShowFiltersButton } from "./styles";
-import { CheckboxFilter } from "./CheckbocFilter";
+import { FilterContainer, FilterWrapper, ShowFiltersButton ,ButtonFilter, Button } from "./styles";
+import { CheckboxFilter } from "./CheckboxFilter";
 
-const genres = ['action-rpg', 'fighting', 'fantasy', 'mmo', 'battle-royale', 'card', 'social', 'sports', 'racing',  'moba', 'strategy', 'shooter', 'mmorpg', 'all'];
+const genres = ['action-rpg', 'fighting', 'fantasy', 'mmo', 'battle-royale', 'card', 'social', 'sports', 'racing',  'moba', 'strategy', 'shooter', 'mmorpg'];
 
 export const Filter: React.FC = () => {
-  const {addFilter, choices} = useGames();
+  const {setFilter, choices, filters} = useGames();
   const [open, setOpen] = useState(false);
 
   return (
@@ -21,67 +20,62 @@ export const Filter: React.FC = () => {
         <BsChevronCompactRight />  
       </ShowFiltersButton>
 
-      <CheckboxFiltersContainer>
+      <FilterContainer>
         <h3>Geral</h3>
-        {Object.keys(choices).map((key) => {
-          return <CheckboxFilter key={key + '_filter'} keyProp={key}/>
-        })}
-        <CheckboxFilter keyProp="pc" />
-        <CheckboxFilter keyProp="web" />
-      </CheckboxFiltersContainer>
-
-      <MedalsFiltersContainer>
-        <h3>Medalhas</h3>
-        {medalsList.map((icon, avaliacao) => {
-          return (
-            <div key={`medals_filter_${avaliacao}`}>
-              <label htmlFor={`medal_${avaliacao}`}>
-                {icon}
-              </label>
-              <input
-                type="radio"
-                name='medal_filter'
-                id={`medal_${avaliacao}`}
-                value={`${avaliacao}`}
-                onChange={e => addFilter('medal', avaliacao)}
-              />
-            </div>
-          );
-        })}
-        <div>
-          <label htmlFor='medal_all'>
-          <img
-            width="30px"
-            src={zofiaImg}
-            alt="All medals"
-          />
-          </label>
-          <input
-            type="radio"
-            name='medal_filter'
-            id='medal_all'
-            value='all'
-            onChange={e => addFilter('medal', 'all')}
-          />
+        <div className="filters">
+          {Object.keys(choices).map((key) => {
+            return <CheckboxFilter key={key + '_filter'} keyProp={key}/>
+          })}
+          <CheckboxFilter keyProp="pc" />
+          <CheckboxFilter keyProp="web" />
         </div>
-      </MedalsFiltersContainer>
+      </FilterContainer>
 
-      <GenreFiltersContainer>
+      <FilterContainer>
+        <h3>Medalhas</h3>
+        <div className='filters'>
+          {medalsList.map((icon, avaliacao) => {
+            return (
+              <ButtonFilter
+                key={`medal_filter_${avaliacao}`}
+                checked={filters.medal !== undefined? filters.medal === avaliacao: false}
+                noText
+                onClick={e => {
+                  setFilter('medal', avaliacao);
+                }}
+              >
+                {icon}
+              </ButtonFilter>
+            );
+          })}
+        </div>
+        <Button onClick={e => setFilter('medal', 'all')}>
+          Limpar filtro
+        </Button>
+      </FilterContainer>
+
+      <FilterContainer>
         <h3>Gênero</h3>
-        {genres.map((genre, id) => {
-          return (
-            <div key={genre + id}>
-              <label htmlFor={genre}>{genre}</label>
-              <input
-                type="radio"
-                name="genre"
-                id={genre}
-                onChange={e => addFilter('genre', genre)}
-              />
-            </div>
-          )
-        })}
-      </GenreFiltersContainer>
+        <div className="filters">
+          {genres.map((genre, id) => {
+            return (
+              <ButtonFilter
+                key={`genre_filter_${id}`}
+                checked={filters.genre !== undefined? filters.genre === genre: false}
+                onClick={e => {
+                  setFilter('genre', genre);
+                }}
+              >
+                <BsBookmarkFill />
+                <span>{genre}</span>
+              </ButtonFilter>
+            )
+          })}
+        </div>
+        <Button onClick={e => setFilter('genre', 'all')}>
+          Limpar filtro
+        </Button>
+      </FilterContainer>
 
     </FilterWrapper>
   )
