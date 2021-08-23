@@ -39,7 +39,7 @@ export const Filter: React.FC = () => {
               <ButtonFilter
                 key={`medal_filter_${avaliacao}`}
                 checked={filters.medal !== undefined? filters.medal === avaliacao: false}
-                noText
+                showSvg
                 onClick={e => {
                   setFilter('medal', avaliacao);
                 }}

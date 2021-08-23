@@ -21,7 +21,7 @@ export const SearchBar: React.FC = () => {
         onClick={e => setDynamic(prev => !prev)}
         checked={dynamic}
       >
-        Buscar dinâmica
+        Busca dinâmica
       </CheckedButton>
       <form onSubmit={search}>
         <input

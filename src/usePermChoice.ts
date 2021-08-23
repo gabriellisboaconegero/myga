@@ -2,10 +2,10 @@ import { ChoiceValue } from "./gamesContext";
 import { usePermState } from "./usePermState";
 
 export const usePermChoice = (type: string): [ChoiceValue, (idToAdd: number) => void] => {
-  const [choices, setChoices] = usePermState<ChoiceValue>(type, {});
+  const [choice, setChoice] = usePermState<ChoiceValue>(type, {});
 
   function toggleChoice(idToAdd: number){
-    setChoices(prev => {
+    setChoice(prev => {
       return {
         ...prev,
         [idToAdd]: !prev[idToAdd]
@@ -13,5 +13,5 @@ export const usePermChoice = (type: string): [ChoiceValue, (idToAdd: number) => 
     });
   }
 
-  return [choices, toggleChoice];
+  return [choice, toggleChoice];
 }

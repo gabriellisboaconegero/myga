@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+//Home
 export const HomeWrapper = styled.div`
   padding: 4rem 4rem;
 `
@@ -41,6 +42,42 @@ export const GamesListWrapper = styled.div`
   margin-top: 1rem;
 `
 
+//Profile
 export const ProfileWrapper = styled.div`
-  
+  max-width: 70%;
+  margin: 4rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+
+  h2{
+    text-align: center;
+  }
+`
+
+export const FavGameContainer = styled.div`
+  width: 50%;
+  h2{
+    margin-bottom: 8px;
+  }
+`
+
+export const FavGamesList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-content: flex-start;
+  height: 500px;
+  width: 100%;
+
+  header{
+    flex: 100%;
+    align-self: stretch;
+  }
+
+  >div{
+    flex: 50%;
+  }
 `

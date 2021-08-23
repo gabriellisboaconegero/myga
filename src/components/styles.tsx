@@ -21,6 +21,7 @@ export const CheckedButton = styled(Button)<{checked: boolean}>`
     if (props.checked) {
       return css`
         border-color: red;
+        
       `
     }
   }}
@@ -29,7 +30,7 @@ export const CheckedButton = styled(Button)<{checked: boolean}>`
 // Filter
 export const FilterWrapper = styled.div`
   position: fixed; 
-  width: 30%;
+  width: 25%;
   height: 100vh;
 
   background: #D6D6D6;
@@ -90,7 +91,7 @@ export const ShowFiltersButton = styled.button`
   transform: translateX(100%) translateY(-50%);
 `
 
-export const ButtonFilter = styled.button<{checked: boolean, noText?: boolean, color?: string}>`
+export const ButtonFilter = styled.button<{checked: boolean, showSvg?: boolean, color?: string}>`
   padding: 5px 10px;
   cursor: pointer;
   border: 2px solid #E0E0E0;
@@ -105,7 +106,7 @@ export const ButtonFilter = styled.button<{checked: boolean, noText?: boolean, c
 
   
   ${(props) => {
-    if (!props.noText){ return css`
+    if (!props.showSvg){ return css`
       svg{
         max-width: 0;
       }
@@ -238,29 +239,27 @@ export const SearchBarWrapper = styled.header`
   }
 
   >button{
-    width: 50%;
+    align-self: flex-start;
   }
 `
 
 // Game card
 export const GameCardWrapper = styled.div`
   flex: 1;
-  flex-basis: 300px;
+  flex-basis: 250px;
   max-width: 500px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  justify-content: flex-start;
   align-items: center;
 `
 
 export const GameImage = styled.div`
   position: relative;
-  display: inline-block;
   font-size: 0;
   border-radius: 20px;
   img{
-    width: 300px;
+    width: 100%;
     border-radius:inherit;
   }
 
@@ -277,7 +276,7 @@ export const GameImage = styled.div`
     justify-content: space-around;
     flex-direction: column;
     border-radius: inherit;
-    color: white;
+    color: #F5F5F5;
     font-weight: 700;
     opacity: 0;
     transform: rotateY(90deg);
@@ -308,12 +307,33 @@ export const GameImage = styled.div`
 export const MedalsContainer = styled.header`
   display: flex;
   gap: 4px;
-  /* justify-content: center; */
 `
 
 export const MainContainer = styled.main`
-  /* display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column; */
+`
+
+export const FotterContainer = styled.footer`
+  margin-top: auto;
+  .tags{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: center;
+  }
+
+  a{
+    display: block;
+    text-decoration: none;
+    color: #F5F5F5;
+    background: red;
+    margin-top: 8px;
+    text-align: center;
+    padding: 4px;
+    transition: filter 0.2s;
+    cursor: pointer;
+
+    &:hover{
+      filter: brightness(0.8);
+    }
+  }
 `
